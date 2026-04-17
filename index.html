@@ -93,17 +93,6 @@
     @keyframes slide-up { to { transform: translateY(0); } }
 
     /* ==========================================
-       WOVEN CANVAS
-    ========================================== */
-    #wovenCanvas {
-      position: absolute; inset: 0; z-index: 0;
-      pointer-events: none;
-    }
-    #wovenCanvas canvas {
-      display: block; width: 100% !important; height: 100% !important;
-    }
-
-    /* ==========================================
        CUSTOM CURSOR
     ========================================== */
     .cur-dot {
@@ -225,7 +214,44 @@
       100% { filter: blur(110px) hue-rotate(600deg); }
     }
 
-    .hero-content { position: relative; z-index: 1; max-width: 1340px; margin: 0 auto; width: 100%; padding-top: 88px; }
+    .hero-content {
+      position: relative; z-index: 1;
+      max-width: 1340px; margin: 0 auto; width: 100%;
+      padding-top: 88px;
+      display: flex; flex-direction: row;
+      align-items: center; gap: 48px;
+    }
+
+    /* Left text column */
+    .hero-text { flex: 0 0 54%; min-width: 0; }
+
+    /* Slightly smaller name so it fits the narrower column cleanly */
+    .hero-text .hero-name { font-size: clamp(60px, 10vw, 156px); }
+
+    /* Right radial shader column */
+    .hero-shader-wrap {
+      flex: 1; min-width: 0;
+      position: relative;
+      height: 580px;
+      overflow: hidden;
+    }
+    #radialCanvas {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      display: block;
+    }
+    /* Left-edge fade — blends seamlessly into text column */
+    .hero-shader-wrap::before {
+      content: ''; position: absolute; inset: 0; z-index: 1;
+      pointer-events: none;
+      background: linear-gradient(to right, var(--bg) 0%, transparent 28%);
+    }
+    /* Radial vignette — softens outer edges */
+    .hero-shader-wrap::after {
+      content: ''; position: absolute; inset: 0; z-index: 1;
+      pointer-events: none;
+      background: radial-gradient(ellipse at center, transparent 45%, rgba(7,7,12,0.72) 88%);
+    }
 
     .hero-eyebrow {
       display: inline-flex; align-items: center; gap: 12px;
@@ -379,6 +405,66 @@
 
     .tile:hover { box-shadow: 0 28px 72px rgba(0,0,0,0.65); }
 
+    /* Behance CTA tile */
+    .tile-behance .tile-vis-bh {
+      position: absolute; inset: 0; z-index: 0;
+      background: linear-gradient(140deg, #020810 0%, #080E20 50%, #050C1A 100%);
+      transition: transform 0.7s var(--ease);
+    }
+    .tile-behance:hover .tile-vis-bh { transform: scale(1.04); }
+    .tile-behance::before {
+      content: ''; position: absolute; inset: 0; z-index: 0;
+      background-image: radial-gradient(circle, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 28px 28px;
+      mask-image: radial-gradient(ellipse 75% 75% at 50% 50%, black 30%, transparent 100%);
+    }
+    .tile-behance-body {
+      position: absolute; inset: 0; z-index: 2;
+      display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      gap: 12px; text-align: center; padding: 32px;
+    }
+    .tile-behance-icon {
+      width: 60px; height: 60px;
+      background: rgba(23,105,255,0.1);
+      border: 1px solid rgba(23,105,255,0.22);
+      border-radius: 16px;
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+      margin-bottom: 4px;
+    }
+    .tile-behance:hover .tile-behance-icon {
+      background: rgba(23,105,255,0.18);
+      border-color: rgba(23,105,255,0.5);
+      box-shadow: 0 0 28px rgba(23,105,255,0.25);
+    }
+    .tile-behance-eyebrow {
+      font-size: 10px; font-weight: 700; letter-spacing: 0.16em;
+      text-transform: uppercase; color: rgba(255,255,255,0.3);
+    }
+    .tile-behance-name {
+      font-family: var(--font-h); font-size: clamp(22px, 3vw, 30px);
+      font-weight: 800; letter-spacing: -0.03em; color: var(--text);
+      line-height: 1;
+    }
+    .tile-behance-handle {
+      font-size: 12px; color: rgba(255,255,255,0.25); letter-spacing: 0.04em;
+      margin-top: 2px;
+    }
+    .tile-behance-btn {
+      margin-top: 8px;
+      display: inline-flex; align-items: center; gap: 8px;
+      font-size: 12px; font-weight: 600; letter-spacing: 0.06em;
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      padding: 8px 20px; border-radius: 100px;
+      transition: all 0.35s var(--ease);
+    }
+    .tile-behance:hover .tile-behance-btn {
+      background: var(--text); color: var(--bg);
+      border-color: var(--text); transform: translateY(-2px);
+    }
+
     /* Visual layer */
     .tile-vis {
       position: absolute; inset: 0; z-index: 0;
@@ -386,8 +472,8 @@
     }
     .tile:hover .tile-vis { transform: scale(1.06); }
 
-    /* v1 — Gen AI / cinematic: violet-gold */
-    .v1 { background: linear-gradient(140deg, #0D0520 0%, #2E0D5F 35%, #7B2FF7 65%, #E8A030 100%); }
+    /* v1 — Skoda: brand green */
+    .v1 { background: linear-gradient(140deg, #010F04 0%, #0A3015 35%, #1A7A30 65%, #4BA82E 100%); }
     /* v2 — WAVE / music-tech: teal-emerald */
     .v2 { background: linear-gradient(140deg, #001A18 0%, #005A42 45%, #00C896 78%, #60FFD4 100%); }
     /* v3 — AR Brand: warm coral-orange */
@@ -398,6 +484,32 @@
     .v5 { background: linear-gradient(140deg, #160003 0%, #5C0010 45%, #CC0022 75%, #FF4060 100%); }
     /* v6 — AR Tourism: heritage gold-amber */
     .v6 { background: linear-gradient(140deg, #1A1000 0%, #5C3A00 45%, #C07800 75%, #F0C040 100%); }
+
+    /* Thumbnail image (sits inside .tile-vis) */
+    .tile-img {
+      position: absolute; inset: 0; z-index: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      display: block;
+    }
+
+    /* Color-grade tint overlay — fades out on hover to reveal natural photo */
+    .tile-tint {
+      position: absolute; inset: 0; z-index: 1;
+      pointer-events: none;
+      mix-blend-mode: color;
+      opacity: 0;
+      transition: opacity 0.55s var(--ease);
+    }
+    .tile:hover .tile-tint { opacity: 1; }
+
+    /* Per-project tint gradients matching v1–v6 */
+    .t1 { background: linear-gradient(140deg, #010F04 0%, #0A3015 35%, #1A7A30 65%, #4BA82E 100%); }
+    .t2 { background: linear-gradient(140deg, #001A18 0%, #005A42 45%, #00C896 78%, #60FFD4 100%); }
+    .t3 { background: linear-gradient(140deg, #2A0800 0%, #8B2000 45%, #FF5A18 78%, #FFB070 100%); }
+    .t4 { background: linear-gradient(140deg, #000E2A 0%, #002878 45%, #0055E6 75%, #22AAFF 100%); }
+    .t5 { background: linear-gradient(140deg, #160003 0%, #5C0010 45%, #CC0022 75%, #FF4060 100%); }
+    .t6 { background: linear-gradient(140deg, #1A1000 0%, #5C3A00 45%, #C07800 75%, #F0C040 100%); }
 
     /* SVG pattern per tile */
     .tile-svg {
@@ -485,18 +597,29 @@
     .atag.in { opacity: 1; transform: translateY(0); }
     .atag:hover { border-color: var(--accent); color: var(--accent); background: rgba(124,110,250,0.07); }
 
-    /* About photo */
+    /* About photo slideshow */
     .about-photo-frame {
       position: relative; border-radius: 24px; overflow: hidden;
       aspect-ratio: 3 / 4; border: 1px solid var(--border);
       background: var(--surface);
     }
-    .about-photo-frame img {
+    .about-slide {
+      position: absolute; inset: 0;
       width: 100%; height: 100%; display: block;
       object-fit: cover; object-position: center 15%;
-      transition: transform 0.7s var(--ease);
+      transform: translateX(100%);
+      transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: transform;
+      z-index: 0;
     }
-    .about-photo-frame:hover img { transform: scale(1.04); }
+    .about-slide.active {
+      transform: translateX(0);
+      z-index: 1;
+    }
+    .about-slide.exit {
+      transform: translateX(-100%);
+      z-index: 1;
+    }
     /* bottom fade */
     .about-photo-frame::after {
       content: ''; position: absolute; inset: 0; pointer-events: none;
@@ -587,6 +710,7 @@
       .tile:nth-child(5), .tile:nth-child(6), .tile:nth-child(7) { grid-column: span 1; }
       .about-grid { grid-template-columns: 1fr; gap: 48px; }
       .hero-bottom { flex-direction: column; align-items: flex-start; gap: 28px; }
+      .hero-shader-wrap { height: 420px; }
     }
     @media (max-width: 768px) {
       nav, nav.scrolled { padding-left: 20px; padding-right: 20px; }
@@ -597,6 +721,9 @@
       .section-pad { padding: 72px 0; }
       .hero-stats { gap: 32px; }
       footer { flex-direction: column; gap: 8px; text-align: center; padding: 20px; }
+      .hero-content { flex-direction: column; }
+      .hero-text { flex: none; width: 100%; }
+      .hero-shader-wrap { display: none; }
     }
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after {
@@ -613,7 +740,7 @@
   <!-- =================== LOADER =================== -->
   <div id="loader">
     <div class="loader-word">
-      <span class="loader-word-inner">Adithya S.</span>
+      <span class="loader-word-inner">Firing it up</span>
     </div>
     <div class="loader-bar"><div class="loader-fill"></div></div>
   </div>
@@ -634,46 +761,55 @@
   </nav>
 
   <!-- =================== HERO =================== -->
-  <section id="hero" style="cursor:none;">
-    <div id="wovenCanvas"></div>
+  <section id="hero">
     <div class="orb orb-1"></div>
     <div class="orb orb-2"></div>
     <div class="orb orb-3"></div>
 
     <div class="hero-content">
-      <div class="hero-eyebrow" id="eyebrow">Experience Designer &amp; Creative Technologist</div>
 
-      <h1 class="hero-name">
-        <span class="line"><span class="line-inner" id="n1">Adithya</span></span>
-        <span class="line"><span class="line-inner" id="n2">Suresh<span class="dot">.</span></span></span>
-      </h1>
+      <!-- Left: text -->
+      <div class="hero-text">
+        <div class="hero-eyebrow" id="eyebrow">Experience Designer &amp; Creative Technologist</div>
 
-      <div class="hero-bottom" id="heroBottom">
-        <div class="hero-desc">
-          <p>Designing at the intersection of <strong>tech &amp; experience</strong>. I explore Gen AI, XR, game engines, and interactive technology — turning complex challenges into <strong>meaningful, immersive experiences</strong>.</p>
-          <div class="hero-ctas">
-            <a href="#work" class="btn-primary">
-              View Work
-              <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2.5 7.5H12.5M12.5 7.5L8.5 3.5M12.5 7.5L8.5 11.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </a>
-            <a href="#about" class="btn-secondary">About Me</a>
+        <h1 class="hero-name">
+          <span class="line"><span class="line-inner" id="n1">Adithya</span></span>
+          <span class="line"><span class="line-inner" id="n2">Suresh<span class="dot">.</span></span></span>
+        </h1>
+
+        <div class="hero-bottom" id="heroBottom">
+          <div class="hero-desc">
+            <p>Designing at the intersection of <strong>tech &amp; experience</strong>. I explore Gen AI, XR, game engines, and interactive technology — turning complex challenges into <strong>meaningful, immersive experiences</strong>.</p>
+            <div class="hero-ctas">
+              <a href="#work" class="btn-primary">
+                View Work
+                <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2.5 7.5H12.5M12.5 7.5L8.5 3.5M12.5 7.5L8.5 11.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+              <a href="#about" class="btn-secondary">About Me</a>
+            </div>
           </div>
-        </div>
-        <div class="hero-stats">
-          <div>
-            <div class="stat-num" data-count="4">0</div>
-            <div class="stat-label">Years Designing</div>
-          </div>
-          <div>
-            <div class="stat-num" data-count="20">0</div>
-            <div class="stat-label">Projects Built</div>
-          </div>
-          <div>
-            <div class="stat-num" data-count="5">0</div>
-            <div class="stat-label">Domains</div>
+          <div class="hero-stats">
+            <div>
+              <div class="stat-num" data-count="4">0</div>
+              <div class="stat-label">Years Designing</div>
+            </div>
+            <div>
+              <div class="stat-num" data-count="20">0</div>
+              <div class="stat-label">Projects Built</div>
+            </div>
+            <div>
+              <div class="stat-num" data-count="5">0</div>
+              <div class="stat-label">Domains</div>
+            </div>
           </div>
         </div>
       </div>
+
+      <!-- Right: radial WebGL2 shader -->
+      <div class="hero-shader-wrap">
+        <canvas id="radialCanvas"></canvas>
+      </div>
+
     </div>
 
     <div class="marquee-wrapper" id="marqueeWrap">
@@ -719,6 +855,7 @@
         <!-- 01 — LARGE — Skoda Gen AI Pre-Viz -->
         <div class="tile reveal" data-href="./project-skoda.html">
           <div class="tile-vis v1">
+            <img class="tile-img" src="./thumbs/skoda.jpg" alt="Skoda Octavia RS Gen AI Pre-Viz">
             <div class="tile-svg">
               <svg width="380" height="280" viewBox="0 0 380 280" fill="none">
                 <!-- Film frame -->
@@ -744,6 +881,7 @@
               </svg>
             </div>
           </div>
+          <div class="tile-tint t1"></div>
           <div class="tile-ov"></div>
           <div class="tile-num">01</div>
           <div class="tile-body">
@@ -759,6 +897,7 @@
         <!-- 02 — WAVE Tangible Interaction -->
         <div class="tile reveal d1" data-href="./project-wave.html">
           <div class="tile-vis v2">
+            <img class="tile-img" src="./thumbs/wave.jpg" alt="WAVE Tangible Interaction">
             <div class="tile-svg">
               <svg width="220" height="220" viewBox="0 0 220 220" fill="none">
                 <!-- Hand outline -->
@@ -773,6 +912,7 @@
               </svg>
             </div>
           </div>
+          <div class="tile-tint t2"></div>
           <div class="tile-ov"></div>
           <div class="tile-num">02</div>
           <div class="tile-body">
@@ -788,6 +928,7 @@
         <!-- 03 — AR Brand Experience -->
         <div class="tile reveal" data-href="./project-ar-brand.html">
           <div class="tile-vis v3">
+            <img class="tile-img" src="./thumbs/ar-brand.jpg" alt="Brand Experience with AR">
             <div class="tile-svg">
               <svg width="200" height="200" viewBox="0 0 200 200" fill="none">
                 <!-- AR corner markers -->
@@ -804,6 +945,7 @@
               </svg>
             </div>
           </div>
+          <div class="tile-tint t3"></div>
           <div class="tile-ov"></div>
           <div class="tile-num">03</div>
           <div class="tile-body">
@@ -819,6 +961,7 @@
         <!-- 04 — LARGE — VR Flood Safety Training -->
         <div class="tile reveal d1" data-href="./project-vr-flood.html">
           <div class="tile-vis v4">
+            <img class="tile-img" src="./thumbs/vr-flood.jpg" alt="VR Flood Safety Training">
             <div class="tile-svg">
               <svg width="360" height="240" viewBox="0 0 360 240" fill="none">
                 <!-- VR headset outline -->
@@ -838,6 +981,7 @@
               </svg>
             </div>
           </div>
+          <div class="tile-tint t4"></div>
           <div class="tile-ov"></div>
           <div class="tile-num">04</div>
           <div class="tile-body">
@@ -853,6 +997,7 @@
         <!-- 05 — VR CSI Training -->
         <div class="tile reveal" data-href="./project-vr-csi.html">
           <div class="tile-vis v5">
+            <img class="tile-img" src="./thumbs/vr-csi.jpg" alt="VR CSI Training">
             <div class="tile-svg">
               <svg width="190" height="190" viewBox="0 0 190 190" fill="none">
                 <!-- Grid floor / crime scene -->
@@ -872,6 +1017,7 @@
               </svg>
             </div>
           </div>
+          <div class="tile-tint t5"></div>
           <div class="tile-ov"></div>
           <div class="tile-num">05</div>
           <div class="tile-body">
@@ -887,6 +1033,7 @@
         <!-- 06 — AR Tourism App -->
         <div class="tile reveal d1" data-href="./project-ar-tourism.html">
           <div class="tile-vis v6">
+            <img class="tile-img" src="./thumbs/ar-tourism.jpg" alt="Timeless Tales AR Tourism">
             <div class="tile-svg">
               <svg width="190" height="190" viewBox="0 0 190 190" fill="none">
                 <!-- Location pin -->
@@ -904,6 +1051,7 @@
               </svg>
             </div>
           </div>
+          <div class="tile-tint t6"></div>
           <div class="tile-ov"></div>
           <div class="tile-num">06</div>
           <div class="tile-body">
@@ -912,6 +1060,25 @@
             <div class="tile-foot">
               <span class="tile-year">2024</span>
               <div class="tile-arrow"><svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2.5 7.5H12.5M12.5 7.5L8.5 3.5M12.5 7.5L8.5 11.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 07 — View Behance CTA -->
+        <div class="tile tile-behance reveal" data-href="https://www.behance.net/adithya_s98">
+          <div class="tile-vis-bh"></div>
+          <div class="tile-behance-body">
+            <div class="tile-behance-icon">
+              <svg width="26" height="26" viewBox="0 0 24 24" fill="#1769ff"><path d="M22 7h-7V5h7v2zm1.726 10c-.442 1.297-2.029 3-5.101 3-3.074 0-5.564-1.729-5.564-5.675 0-3.91 2.325-5.92 5.466-5.92 3.082 0 4.964 1.782 5.375 4.426.078.506.109 1.188.095 2.14H15.97c.13 1.2.836 1.348 1.572 1.348.653 0 1.107-.418 1.184-.899H23.726zm-8.261-4h3.972c-.088-1.174-.366-1.95-1.92-1.95-1.5 0-1.961.718-2.052 1.95zM2 6h6.042c1.847 0 3.524.642 3.524 2.745 0 1.154-.618 1.92-1.544 2.352 1.176.357 2.132 1.217 2.132 2.872 0 2.465-1.98 3.531-4.133 3.531H2V6zm3.285 5.02h2.1c.764 0 1.524-.235 1.524-1.25 0-1.01-.817-1.145-1.523-1.145H5.285v2.395zm0 4.73h2.396c.876 0 1.796-.257 1.796-1.398s-.97-1.467-1.796-1.467H5.285V15.75z"/></svg>
+            </div>
+            <div>
+              <div class="tile-behance-eyebrow">View all work on</div>
+              <div class="tile-behance-name">Behance</div>
+            </div>
+            <div class="tile-behance-handle">behance.net/adithya_s98</div>
+            <div class="tile-behance-btn">
+              See full portfolio
+              <svg width="13" height="13" viewBox="0 0 15 15" fill="none"><path d="M3 12L12 3M12 3H6M12 3V9" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
             </div>
           </div>
         </div>
@@ -947,7 +1114,11 @@
         </div>
         <div class="reveal d2">
           <div class="about-photo-frame">
-            <img src="./profile.jpg" alt="Adithya Suresh — Experience Designer working with VR" />
+            <img class="about-slide active" src="./profile-1.jpg" alt="Adithya Suresh">
+            <img class="about-slide" src="./profile-2.jpg" alt="Adithya Suresh">
+            <img class="about-slide" src="./profile-3.jpg" alt="Adithya Suresh">
+            <img class="about-slide" src="./profile-4.jpg" alt="Adithya Suresh">
+            <img class="about-slide" src="./profile-5.jpg" alt="Adithya Suresh">
             <div class="about-photo-label">Mumbai, India</div>
           </div>
         </div>
@@ -1171,163 +1342,170 @@
       });
     });
 
-    /* ==============================================
-       WOVEN LIGHT — THREE.JS PARTICLE SYSTEM
-       Ported from WovenCanvas React component.
-       Blue/violet palette + additive glow blending.
-    ============================================== */
-    (function initWovenCanvas() {
-      const container = document.getElementById('wovenCanvas');
-      if (!container || typeof THREE === 'undefined') return;
 
-      /* ---- Renderer ---- */
-      const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-      renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-      renderer.setSize(window.innerWidth, window.innerHeight);
-      renderer.setClearColor(0x000000, 0);
-      container.appendChild(renderer.domElement);
+    /* ============================================================
+       ABOUT PHOTO SLIDESHOW — auto-swipes every 500ms
+    ============================================================ */
+    (function initPhotoSlideshow() {
+      const slides = Array.from(document.querySelectorAll('.about-slide'));
+      if (slides.length < 2) return;
+      let current = 0;
 
-      /* ---- Scene / Camera ---- */
-      const scene  = new THREE.Scene();
-      const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-      camera.position.z = 5;
+      function advance() {
+        const prev = current;
+        current = (current + 1) % slides.length;
 
-      /* ---- Glow sprite texture (canvas-drawn radial gradient) ---- */
-      function makeGlowTexture() {
-        const c = document.createElement('canvas');
-        c.width = c.height = 64;
-        const ctx = c.getContext('2d');
-        const g = ctx.createRadialGradient(32, 32, 0, 32, 32, 32);
-        g.addColorStop(0,   'rgba(255,255,255,1)');
-        g.addColorStop(0.25,'rgba(255,255,255,0.7)');
-        g.addColorStop(0.6, 'rgba(255,255,255,0.15)');
-        g.addColorStop(1,   'rgba(255,255,255,0)');
-        ctx.fillStyle = g;
-        ctx.beginPath(); ctx.arc(32, 32, 32, 0, Math.PI * 2); ctx.fill();
-        return new THREE.CanvasTexture(c);
-      }
-      const glowTex = makeGlowTexture();
+        // Exit: current active slides out to the left
+        slides[prev].classList.remove('active');
+        slides[prev].classList.add('exit');
 
-      /* ---- Particles ---- */
-      const COUNT = 38000;
-      const positions       = new Float32Array(COUNT * 3);
-      const origPositions   = new Float32Array(COUNT * 3);
-      const colors          = new Float32Array(COUNT * 3);
-      const velocities      = new Float32Array(COUNT * 3);
+        // Enter: next slide comes in from the right
+        slides[current].classList.add('active');
 
-      // Seed onto torus-knot surface
-      const tkGeo = new THREE.TorusKnotGeometry(1.5, 0.5, 220, 32);
-      const tkPos = tkGeo.attributes.position;
-
-      for (let i = 0; i < COUNT; i++) {
-        const vi = i % tkPos.count;
-        const x = tkPos.getX(vi), y = tkPos.getY(vi), z = tkPos.getZ(vi);
-        positions[i*3]   = origPositions[i*3]   = x;
-        positions[i*3+1] = origPositions[i*3+1] = y;
-        positions[i*3+2] = origPositions[i*3+2] = z;
-
-        // Blue → violet hue range  (0.55 = ~198° cyan-blue, 0.76 = ~274° violet)
-        const h = 0.55 + Math.random() * 0.21;
-        const s = 0.85 + Math.random() * 0.15;
-        const l = 0.62 + Math.random() * 0.20;
-        const col = new THREE.Color().setHSL(h, s, l);
-        colors[i*3] = col.r; colors[i*3+1] = col.g; colors[i*3+2] = col.b;
+        // After the transition finishes, reset the exited slide
+        // back to the right (off-screen) ready to cycle again
+        setTimeout(() => {
+          slides[prev].classList.remove('exit');
+        }, 290);
       }
 
-      const geo = new THREE.BufferGeometry();
-      geo.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-      geo.setAttribute('color',    new THREE.BufferAttribute(colors,    3));
+      setInterval(advance, 500);
+    })();
 
-      const mat = new THREE.PointsMaterial({
-        size:          0.032,
-        map:           glowTex,
-        vertexColors:  true,
-        blending:      THREE.AdditiveBlending,
-        transparent:   true,
-        opacity:       0.88,
-        depthWrite:    false,
-        sizeAttenuation: true,
-      });
+    /* ============================================================
+       RADIAL SHADER — hero right panel (WebGL2, mouse-reactive)
+    ============================================================ */
+    (function initRadialShader() {
+      const canvas = document.getElementById('radialCanvas');
+      const wrap   = document.querySelector('.hero-shader-wrap');
+      if (!canvas || !wrap) return;
 
-      const points = new THREE.Points(geo, mat);
-      scene.add(points);
+      const gl = canvas.getContext('webgl2', { premultipliedAlpha: false, antialias: false });
+      if (!gl) { console.warn('WebGL2 not supported — radial shader skipped'); return; }
 
-      /* ---- Mouse tracking (hero-relative) ---- */
-      const mouse = new THREE.Vector2(0, 0);
-      window.addEventListener('mousemove', e => {
-        mouse.x =  (e.clientX / window.innerWidth)  * 2 - 1;
-        mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
-      }, { passive: true });
+      /* ---- Shaders (ported 1-to-1 from original component) ---- */
+      const VERT = `#version 300 es
+precision highp float;
+layout(location=0) in vec2 a_pos;
+out vec2 v_uv;
+void main(){ v_uv = a_pos*0.5+0.5; gl_Position = vec4(a_pos,0.0,1.0); }`;
 
-      /* ---- Clock ---- */
-      const clock = new THREE.Clock();
+      const FRAG = `#version 300 es
+precision highp float;
+out vec4 fragColor;
+in vec2 v_uv;
+uniform vec3  iResolution;
+uniform float iTime;
+uniform int   iFrame;
+uniform vec4  iMouse;
 
-      /* ---- Animation loop ---- */
-      let rafId;
-      function animate() {
-        rafId = requestAnimationFrame(animate);
-        const t = clock.getElapsedTime();
+void mainImage(out vec4 fragColor, in vec2 fragCoord) {
+    vec2  r = iResolution.xy;
+    float t = iTime;
+    vec4  o = vec4(0.0);
+    vec2  p = fragCoord - r * 0.5;
 
-        const mwx = mouse.x * 3.2;
-        const mwy = mouse.y * 3.2;
+    for (float i, a; i++ < 7.0; ) {
+        a = length(p) / r.y - (i * i) / 50.0;
+        float denom = max(a, -a * 4.0) + 2.0 / r.y;
+        a = atan(p.y, p.x) * 3.0 + t * sin(i * i) + i * i;
+        float gate = smoothstep(0.0, 0.6, cos(a));
+        o += 0.02 / denom * gate * (1.0 + sin(a - i + vec4(0.0, 0.2, 0.5, 0.0)));
+    }
+    o = tanh(o);
+    fragColor = vec4(o.rgb, 1.0);
+}
+void main() { mainImage(fragColor, gl_FragCoord.xy); }`;
 
-        for (let i = 0; i < COUNT; i++) {
-          const ix = i*3, iy = i*3+1, iz = i*3+2;
-
-          let px = positions[ix], py = positions[iy], pz = positions[iz];
-          const ox = origPositions[ix], oy = origPositions[iy], oz = origPositions[iz];
-          let vx = velocities[ix], vy = velocities[iy], vz = velocities[iz];
-
-          // Mouse repulsion
-          const dx = px - mwx, dy = py - mwy, dz = pz;
-          const distSq = dx*dx + dy*dy + dz*dz;
-          if (distSq < 2.25) {               // radius 1.5
-            const dist = Math.sqrt(distSq) || 0.0001;
-            const f = (1.5 - dist) * 0.013;
-            vx += (dx/dist) * f;
-            vy += (dy/dist) * f;
-            vz += (dz/dist) * f;
-          }
-
-          // Spring back to origin
-          vx += (ox - px) * 0.0012;
-          vy += (oy - py) * 0.0012;
-          vz += (oz - pz) * 0.0012;
-
-          // Damping
-          vx *= 0.955; vy *= 0.955; vz *= 0.955;
-
-          positions[ix]   = px + vx;
-          positions[iy]   = py + vy;
-          positions[iz]   = pz + vz;
-          velocities[ix]  = vx;
-          velocities[iy]  = vy;
-          velocities[iz]  = vz;
+      /* ---- Compile helper ---- */
+      function compile(type, src) {
+        const sh = gl.createShader(type);
+        gl.shaderSource(sh, src);
+        gl.compileShader(sh);
+        if (!gl.getShaderParameter(sh, gl.COMPILE_STATUS)) {
+          console.error('Shader error:', gl.getShaderInfoLog(sh));
+          gl.deleteShader(sh); return null;
         }
-        geo.attributes.position.needsUpdate = true;
-
-        points.rotation.y = t * 0.048;
-        points.rotation.x = Math.sin(t * 0.018) * 0.12;
-
-        renderer.render(scene, camera);
+        return sh;
       }
-      animate();
+
+      const vs = compile(gl.VERTEX_SHADER, VERT);
+      const fs = compile(gl.FRAGMENT_SHADER, FRAG);
+      if (!vs || !fs) return;
+
+      const prog = gl.createProgram();
+      gl.attachShader(prog, vs); gl.attachShader(prog, fs);
+      gl.linkProgram(prog);
+      gl.deleteShader(vs); gl.deleteShader(fs);
+      if (!gl.getProgramParameter(prog, gl.LINK_STATUS)) {
+        console.error('Link error:', gl.getProgramInfoLog(prog)); return;
+      }
+
+      /* ---- Full-screen triangle ---- */
+      const vao = gl.createVertexArray();
+      gl.bindVertexArray(vao);
+      const vbo = gl.createBuffer();
+      gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
+      gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW);
+      gl.enableVertexAttribArray(0);
+      gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+
+      const uRes   = gl.getUniformLocation(prog, 'iResolution');
+      const uTime  = gl.getUniformLocation(prog, 'iTime');
+      const uFrame = gl.getUniformLocation(prog, 'iFrame');
+      const uMouse = gl.getUniformLocation(prog, 'iMouse');
+
+      /* ---- Mouse — tracked relative to canvas ---- */
+      const mouse = { x: 0, y: 0, l: 0, r: 0 };
+      canvas.addEventListener('mousemove', e => {
+        const r = canvas.getBoundingClientRect();
+        mouse.x = e.clientX - r.left;
+        mouse.y = r.height - (e.clientY - r.top);  // flip Y to WebGL coords
+      }, { passive: true });
+      canvas.addEventListener('mousedown', e => { if (e.button === 0) mouse.l = 1; }, { passive: true });
+      canvas.addEventListener('mouseup',   e => { if (e.button === 0) mouse.l = 0; }, { passive: true });
 
       /* ---- Resize ---- */
-      window.addEventListener('resize', () => {
-        camera.aspect = window.innerWidth / window.innerHeight;
-        camera.updateProjectionMatrix();
-        renderer.setSize(window.innerWidth, window.innerHeight);
-      }, { passive: true });
-
-      /* ---- Pause when hero leaves viewport (perf) ---- */
-      const heroEl = document.getElementById('hero');
-      if (heroEl) {
-        const pauseIO = new IntersectionObserver(([entry]) => {
-          entry.isIntersecting ? animate() : cancelAnimationFrame(rafId);
-        }, { threshold: 0 });
-        pauseIO.observe(heroEl);
+      function resize() {
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        const w   = Math.max(1, Math.floor(wrap.offsetWidth  * dpr));
+        const h   = Math.max(1, Math.floor(wrap.offsetHeight * dpr));
+        if (canvas.width !== w || canvas.height !== h) {
+          canvas.width = w; canvas.height = h;
+          gl.viewport(0, 0, w, h);
+        }
       }
+
+      /* ---- Animate ---- */
+      const startTime = performance.now();
+      let frame = 0, rafId, isVisible = true;
+
+      function tick(now) {
+        if (!isVisible) return;
+        const t   = (now - startTime) / 1000;
+        const dpr = Math.min(window.devicePixelRatio || 1, 2);
+        frame++;
+        resize();
+        gl.useProgram(prog);
+        gl.uniform3f(uRes,   canvas.width, canvas.height, dpr);
+        gl.uniform1f(uTime,  t);
+        gl.uniform1i(uFrame, frame);
+        gl.uniform4f(uMouse, mouse.x * dpr, mouse.y * dpr, mouse.l, mouse.r);
+        gl.bindVertexArray(vao);
+        gl.drawArrays(gl.TRIANGLES, 0, 3);
+        rafId = requestAnimationFrame(tick);
+      }
+
+      const io = new IntersectionObserver(([entry]) => {
+        isVisible = entry.isIntersecting;
+        if (isVisible) { resize(); rafId = requestAnimationFrame(tick); }
+        else cancelAnimationFrame(rafId);
+      }, { threshold: 0 });
+      io.observe(canvas);
+
+      window.addEventListener('resize', resize, { passive: true });
+      resize();
+      rafId = requestAnimationFrame(tick);
     })();
 
     /* ============================================================
