@@ -5,6 +5,38 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>WAVE — Tangible Interaction · Adithya Suresh</title>
   <link rel="stylesheet" href="./project-page.css"/>
+  <style>
+    .lb-overlay {
+      position: fixed; inset: 0; z-index: 9999;
+      background: rgba(0,0,0,0.93);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; visibility: hidden;
+      transition: opacity 0.28s ease, visibility 0.28s ease;
+      cursor: zoom-out;
+    }
+    .lb-overlay.active { opacity: 1; visibility: visible; }
+    .lb-overlay.active .lb-img { transform: scale(1); }
+    .lb-img {
+      max-width: 92vw; max-height: 88vh;
+      object-fit: contain; border-radius: 8px;
+      transform: scale(0.94); cursor: default;
+      transition: transform 0.32s cubic-bezier(0.16,1,0.3,1);
+      user-select: none;
+    }
+    .lb-close {
+      position: fixed; top: 20px; right: 24px;
+      width: 44px; height: 44px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.18);
+      border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; color: #fff;
+      transition: background 0.2s, transform 0.2s;
+      z-index: 10000;
+    }
+    .lb-close:hover { background: rgba(255,255,255,0.18); transform: scale(1.08); }
+    .proj-media img { cursor: zoom-in; }
+  </style>
 </head>
 <body>
 
@@ -21,24 +53,29 @@
   </nav>
 
   <section class="proj-hero">
-    <div class="proj-hero-bg" style="background: linear-gradient(140deg, #001A18 0%, #005A42 45%, #00C896 78%, #60FFD4 100%);"></div>
-    <div class="proj-hero-ov"></div>
+    <video
+      class="proj-hero-bg"
+      src="./assets/wave/project%20hero%20wave.mp4"
+      autoplay loop muted playsinline
+      style="width:100%;height:100%;object-fit:cover;object-position:center;"
+    ></video>
+    <div class="proj-hero-ov" style="background:rgba(0,0,0,0.60);"></div>
     <div class="proj-hero-content">
       <div class="proj-chips">
         <span class="proj-chip">Tangible UX</span>
+        <span class="proj-chip">Interaction Design</span>
         <span class="proj-chip">Music Technology</span>
-        <span class="proj-chip">Interactive Art</span>
-        <span class="proj-chip">Gesture Design</span>
+        <span class="proj-chip">Physical Computing</span>
       </div>
       <h1 class="proj-title">WAVE — A Tangible<br>Interaction Experiment</h1>
-      <p class="proj-subtitle">A mix of art and technology. WAVE visualizes and generates music with a simple wave of your hand — bridging physical gesture and digital sound.</p>
+      <p class="proj-subtitle">A mix of art and technology. WAVE lets anyone create and control sound with a simple wave of their hand — no buttons, no prior knowledge, just gesture and feedback.</p>
     </div>
   </section>
 
   <div class="proj-meta-bar">
     <div class="proj-meta-inner">
       <div class="meta-item"><div class="meta-label">Role</div><div class="meta-value">Interaction Designer</div></div>
-      <div class="meta-item"><div class="meta-label">Tools</div><div class="meta-value small">Gesture Sensing · Processing · Arduino</div></div>
+      <div class="meta-item"><div class="meta-label">Tools</div><div class="meta-value small">Arduino · TouchDesigner · Ultrasonic Sensors · LEDs</div></div>
       <div class="meta-item"><div class="meta-label">Year</div><div class="meta-value">2023</div></div>
       <div class="meta-item"><div class="meta-label">Team</div><div class="meta-value small">Adithya Suresh · Kunal Singh</div></div>
     </div>
@@ -46,94 +83,207 @@
 
   <main class="proj-body">
 
-    <!-- Hero Visual -->
+    <!-- Hero Video -->
     <div class="proj-section reveal">
-      <div class="ph ar-16-9">
-        <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"/></svg>
-        <span class="ph-label">WAVE — Installation Hero Shot</span>
-        <span class="ph-sub">Full setup in environment</span>
-        <span class="ph-badge ph-badge-img">IMG</span>
+      <div class="proj-video-wrap">
+        <iframe src="https://www.youtube.com/embed/km9py7fb7sA?si=vAKjKTYhBXQWNOk0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
     </div>
 
-    <!-- Concept -->
+    <!-- About -->
     <div class="proj-section reveal">
       <div class="grid-text-img">
         <div>
-          <div class="proj-section-eyebrow">Concept</div>
-          <h2 class="proj-section-title">Where Gesture Becomes Sound</h2>
-          <p class="proj-text">WAVE explores the idea that <strong>physical movement can be a musical instrument</strong>. By tracking hand gestures in real time, the system maps spatial data to sonic parameters — pitch, rhythm, timbre — and simultaneously generates a visual representation of the sound.</p>
-          <p class="proj-text mt-16">The project challenges the boundary between performer and instrument, inviting anyone to become a musician without prior knowledge of music theory or technique.</p>
+          <div class="proj-section-eyebrow">About</div>
+          <h2 class="proj-section-title">Sound You Can Touch</h2>
+          <p class="proj-text">WAVE is a tangible interaction experiment that explores how <strong>simple horizontal hand movements</strong> can be used to create and control sound — engaging and captivating the user through audio and visual feedback.</p>
+          <p class="proj-text">The project sits at the intersection of physical computing, generative audio, and expressive design. It was built to challenge the assumption that making music requires screens, buttons, or musical training.</p>
         </div>
-        <div class="ph ar-1-1">
-          <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2a3 3 0 003 3v4a3 3 0 01-6 0V5a3 3 0 013-3z"/><path d="M19 10v2a7 7 0 01-14 0v-2M12 19v3M8 22h8"/></svg>
-          <span class="ph-label">Concept Sketch</span>
-          <span class="ph-sub">Early ideation / hand gesture map</span>
-          <span class="ph-badge ph-badge-img">IMG</span>
+        <div class="proj-media ar-4-3">
+          <img src="./assets/wave/installation%20overview.gif" alt="WAVE — Installation Overview"/>
         </div>
       </div>
     </div>
 
     <hr class="proj-divider"/>
 
-    <!-- Interaction Demo GIF -->
+    <!-- The Thought -->
     <div class="proj-section reveal">
-      <div class="proj-section-eyebrow">Interaction</div>
-      <h2 class="proj-section-title">Live Gesture to Music</h2>
-      <p class="proj-text">A slow upward sweep generates a rising melody. A rapid sideways motion triggers percussive hits. Each gesture type is mapped to a distinct sonic and visual response, creating an intuitive vocabulary of interaction.</p>
-      <div class="ph ar-16-9 mt-32">
-        <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-        <span class="ph-label">Live Demo — Gesture Interaction</span>
-        <span class="ph-sub">Real-time gesture-to-sound mapping</span>
-        <span class="ph-badge ph-badge-gif">GIF</span>
+      <div class="proj-section-eyebrow">Design Question</div>
+      <h2 class="proj-section-title">The Thought</h2>
+      <div class="proj-callout" style="border-left-color: var(--accent);">
+        <p style="font-size: 20px; font-style: italic; color: var(--text); line-height: 1.65;">"Can simple spatial gestures enable anyone to feel a sense of musical control — without relying on screen interfaces, buttons, or prior musical knowledge?"</p>
       </div>
     </div>
 
-    <!-- Technical + Visual -->
+    <!-- Goal -->
     <div class="proj-section reveal">
-      <div class="proj-section-eyebrow">System Design</div>
-      <h2 class="proj-section-title">Technical Architecture</h2>
+      <div class="proj-section-eyebrow">Goal</div>
+      <h2 class="proj-section-title">What We Were Designing For</h2>
+      <p class="proj-text">To design an expressive interaction where the experience itself communicates how it works — no instructions needed.</p>
+      <ul class="insight-list mt-24">
+        <li>Users understand cause-and-effect within seconds</li>
+        <li>Musical output feels immediately responsive</li>
+        <li>Exploration feels playful, not intimidating</li>
+        <li>Feedback is multi-modal — sound + light + visuals</li>
+        <li>Low learning curve regardless of musical background</li>
+      </ul>
+    </div>
+
+    <hr class="proj-divider"/>
+
+    <!-- Interaction Model -->
+    <div class="proj-section reveal">
+      <div class="proj-section-eyebrow">Interaction Model</div>
+      <h2 class="proj-section-title">How It Works</h2>
+      <p class="proj-text">The interaction is deliberately minimal — one gesture, multi-modal feedback. The system encourages users to experiment, observe, and refine movement, <strong>gradually building a mental model</strong> of how their actions affect the output.</p>
+
       <div class="grid-2 mt-32">
-        <div class="ph ar-4-3">
-          <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg>
-          <span class="ph-label">System Architecture Diagram</span>
-          <span class="ph-sub">Gesture → Signal → Sound → Visual flow</span>
-          <span class="ph-badge ph-badge-img">IMG</span>
+        <div>
+          <p class="proj-text" style="margin-bottom: 16px;"><strong>The gesture loop:</strong></p>
+          <ul class="insight-list">
+            <li>The user moves their hands parallel to two ultrasonic sensors</li>
+            <li>Distance from the sensor controls pitch and sound parameters</li>
+            <li>LED lights provide immediate spatial feedback</li>
+            <li>Audio output drives real-time generative visuals in TouchDesigner</li>
+          </ul>
         </div>
-        <div class="ph ar-4-3">
-          <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M9 3H5a2 2 0 00-2 2v4m6-6h10a2 2 0 012 2v4M9 3v18m0 0h10a2 2 0 002-2v-4M9 21H5a2 2 0 01-2-2v-4m0 0h18"/></svg>
-          <span class="ph-label">Hardware Setup</span>
-          <span class="ph-sub">Sensor and Arduino wiring</span>
-          <span class="ph-badge ph-badge-img">IMG</span>
+        <div>
+          <p class="proj-text" style="margin-bottom: 16px;"><strong>Key design decisions:</strong></p>
+          <ul class="insight-list muted">
+            <li>No buttons or menus — pure gesture</li>
+            <li>One primary input: hand movement in space</li>
+            <li>Feedback is multi-modal: audio + visual + light</li>
+            <li>System rewards curiosity over precision</li>
+          </ul>
         </div>
       </div>
     </div>
 
-    <!-- Visual Output -->
+    <!-- User Journey -->
     <div class="proj-section reveal">
-      <div class="proj-section-eyebrow">Visual Output</div>
-      <h2 class="proj-section-title">Sound Made Visible</h2>
-      <p class="proj-text">The visual layer mirrors the sonic output — generating real-time particle flows, waveforms, and colour shifts that respond to both the gesture intensity and the musical parameters produced.</p>
+      <div class="proj-section-eyebrow">User Journey</div>
+      <h2 class="proj-section-title">Four Stages of Engagement</h2>
+      <p class="proj-text">Every first-time user moved through a consistent arc — from cautious curiosity to confident exploration. The design was built to support each stage.</p>
+
+      <div class="journey-flow">
+        <div class="journey-step">
+          <div class="journey-node">01</div>
+          <div class="journey-label">Discovery</div>
+          <div class="journey-desc">Users approach the device with a simple instruction: move your hand horizontally.</div>
+        </div>
+        <div class="journey-step">
+          <div class="journey-node">02</div>
+          <div class="journey-label">Recognition</div>
+          <div class="journey-desc">Users notice a direct relationship between hand movement and sound variation.</div>
+        </div>
+        <div class="journey-step">
+          <div class="journey-node">03</div>
+          <div class="journey-label">Adaptation</div>
+          <div class="journey-desc">Users adjust their movements based on feedback, developing a personal interaction style.</div>
+        </div>
+        <div class="journey-step">
+          <div class="journey-node">04</div>
+          <div class="journey-label">Exploration</div>
+          <div class="journey-desc">Users experiment with speed and range to push the boundaries of the system.</div>
+        </div>
+      </div>
+    </div>
+
+    <hr class="proj-divider"/>
+
+    <!-- Prototype -->
+    <div class="proj-section reveal">
+      <div class="proj-section-eyebrow">Prototype</div>
+      <h2 class="proj-section-title">Building It</h2>
+      <p class="proj-text">The prototype was built using off-the-shelf hardware and open-source software — the goal was speed of iteration, not polish.</p>
+      <ul class="insight-list mt-16" style="margin-bottom: 32px;">
+        <li>Ultrasonic sensors for gesture detection</li>
+        <li>Arduino for processing input</li>
+        <li>TouchDesigner for sound generation and audio-reactive visuals</li>
+        <li>LEDs for immediate spatial feedback</li>
+      </ul>
+
       <div class="grid-3 mt-32">
-        <div class="ph ar-1-1">
-          <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12h2l3-9 4 18 3-12 2 6h6"/></svg>
-          <span class="ph-label">Waveform Visualizer</span>
-          <span class="ph-badge ph-badge-gif">GIF</span>
+        <div class="proj-media ar-4-3">
+          <img src="./assets/wave/hardware%20setup.jpeg" alt="WAVE — Hardware Setup"/>
         </div>
-        <div class="ph ar-1-1">
-          <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M8 12s1.5-4 4-4 4 4 4 4-1.5 4-4 4-4-4-4-4"/></svg>
-          <span class="ph-label">Particle Flow State</span>
-          <span class="ph-badge ph-badge-gif">GIF</span>
+        <div class="proj-media ar-4-3">
+          <img src="./assets/wave/audiovisual%20output.png" alt="WAVE — Audio-Visual Output"/>
         </div>
-        <div class="ph ar-1-1">
-          <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14"/></svg>
-          <span class="ph-label">Colour Response</span>
-          <span class="ph-badge ph-badge-img">IMG</span>
+        <div class="proj-media ar-4-3">
+          <img src="./assets/wave/gesture%20interaction.png" alt="WAVE — Gesture Interaction"/>
+        </div>
+        <div class="proj-media ar-4-3">
+          <img src="./assets/wave/sensor%20wiring.jpg" alt="WAVE — Sensor Wiring"/>
+        </div>
+        <div class="proj-media ar-4-3">
+          <img src="./assets/wave/LED%20feedback.jpeg" alt="WAVE — LED Feedback"/>
+        </div>
+        <div class="proj-media ar-4-3">
+          <img src="./assets/wave/installation%20view.jpeg" alt="WAVE — Installation View"/>
+        </div>
+      </div>
+    </div>
+
+    <!-- User Observations -->
+    <div class="proj-section reveal">
+      <div class="proj-section-eyebrow">User Observations & Learnings</div>
+      <h2 class="proj-section-title">What Testing Revealed</h2>
+      <p class="proj-text">Through informal testing and observation, clear patterns emerged around what worked and where users struggled.</p>
+
+      <div class="grid-2 mt-32">
+        <div>
+          <p class="proj-text" style="margin-bottom: 14px; color: var(--accent); font-weight: 600; font-size: 14px; letter-spacing: 0.06em; text-transform: uppercase;">What Worked</p>
+          <ul class="insight-list">
+            <li>Users quickly understood that movement affects sound</li>
+            <li>First-time users were willing to experiment without prompting</li>
+            <li>Children treated it as play; adults treated it as performance</li>
+          </ul>
+        </div>
+        <div>
+          <p class="proj-text" style="margin-bottom: 14px; color: var(--text-muted); font-weight: 600; font-size: 14px; letter-spacing: 0.06em; text-transform: uppercase;">Where Users Struggled</p>
+          <ul class="insight-list muted">
+            <li>Precise control was difficult due to sensor noise</li>
+            <li>Sudden note jumps broke the feeling of intention</li>
+          </ul>
         </div>
       </div>
 
-      <div class="proj-callout">
+      <div class="grid-3 mt-32">
+        <div class="proj-media ar-4-3">
+          <img src="./assets/wave/user%20testing%201%20(1).jpg" alt="WAVE — User Testing Session 01"/>
+        </div>
+        <div class="proj-media ar-4-3">
+          <img src="./assets/wave/user%20testing%201%20(2).jpg" alt="WAVE — User Testing Session 02"/>
+        </div>
+        <div class="proj-media ar-4-3">
+          <img src="./assets/wave/user%20testing%201%20(3).jpg" alt="WAVE — User Testing Session 03"/>
+        </div>
+      </div>
+
+      <div class="proj-callout mt-32">
         <p><strong>Key insight:</strong> Users consistently described WAVE as "feeling like conducting an orchestra" — the spatial, full-body nature of interaction made it far more expressive than expected from a prototype.</p>
+      </div>
+    </div>
+
+    <!-- Reflection -->
+    <div class="proj-section reveal">
+      <div class="proj-section-eyebrow">Reflection</div>
+      <h2 class="proj-section-title">What WAVE Taught Me</h2>
+      <p class="proj-text">WAVE helped me understand that <strong>tangible interaction design is less about novelty and more about trust</strong> between the user and the system. In a world where people are so used to digital interfaces, a tangible object invites curiosity — the physical presence reduces fear of "doing it wrong."</p>
+      <p class="proj-text">Even small inconsistencies in feedback can significantly impact how confident users feel while interacting. This project sharpened my focus on designing interactions that <strong>communicate clearly through the medium itself</strong> — not through instructions.</p>
+
+      <div class="grid-3 mt-32">
+        <div class="proj-media ar-4-3">
+          <img src="./assets/wave/stickynote1.png" alt="WAVE — Sticky Notes 01" style="position:absolute;top:50%;left:50%;width:75%;height:133.33%;object-fit:contain;transform:translate(-50%,-50%) rotate(-90deg);"/>
+        </div>
+        <div class="proj-media ar-4-3">
+          <img src="./assets/wave/stickynote2.png" alt="WAVE — Sticky Notes 02" style="position:absolute;top:50%;left:50%;width:75%;height:133.33%;object-fit:contain;transform:translate(-50%,-50%) rotate(-90deg);"/>
+        </div>
+        <div class="proj-media ar-4-3">
+          <img src="./assets/wave/stickynote3.png" alt="WAVE — Sticky Notes 03" style="position:absolute;top:50%;left:50%;width:75%;height:133.33%;object-fit:contain;transform:translate(-50%,-50%) rotate(-90deg);"/>
+        </div>
       </div>
     </div>
 
@@ -150,7 +300,8 @@
         <div class="proj-nav-link-chips"><span class="proj-nav-link-chip">Gen AI</span><span class="proj-nav-link-chip">Film</span></div>
       </a>
       <a href="./project-ar-brand.html" class="proj-nav-link next">
-        <span class="proj-nav-dir">Next Project
+        <span class="proj-nav-dir">
+          Next Project
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M14 5l7 7-7 7"/></svg>
         </span>
         <span class="proj-nav-link-name">Brand Experience with AR</span>
@@ -164,11 +315,41 @@
     <a href="./index.html">adithyasuresh.design</a>
   </footer>
 
+  <!-- Lightbox overlay -->
+  <div class="lb-overlay" id="lb">
+    <button class="lb-close" id="lbClose" aria-label="Close">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <img class="lb-img" id="lbImg" src="" alt=""/>
+  </div>
+
   <script>
     const io = new IntersectionObserver(entries => {
       entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
     }, { threshold: 0.08, rootMargin: '0px 0px -48px 0px' });
     document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    // Lightbox
+    const lb      = document.getElementById('lb');
+    const lbImg   = document.getElementById('lbImg');
+    const lbClose = document.getElementById('lbClose');
+
+    function lbOpen(src, alt) {
+      lbImg.src = src; lbImg.alt = alt || '';
+      lb.classList.add('active');
+      document.body.style.overflow = 'hidden';
+    }
+    function lbCloseF() {
+      lb.classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    document.querySelectorAll('.proj-media img').forEach(img => {
+      img.addEventListener('click', () => lbOpen(img.src, img.alt));
+    });
+    lbClose.addEventListener('click', lbCloseF);
+    lb.addEventListener('click', e => { if (e.target === lb) lbCloseF(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') lbCloseF(); });
   </script>
 </body>
 </html>

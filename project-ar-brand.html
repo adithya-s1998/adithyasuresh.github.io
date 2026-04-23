@@ -3,8 +3,79 @@
 <head>
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Brand Experience with AR · Adithya Suresh</title>
+  <title>Enhancing Brand Experience with AR · Adithya Suresh</title>
   <link rel="stylesheet" href="./project-page.css"/>
+  <style>
+    /* Lightbox */
+    .lb-overlay { position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.93); display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.28s ease, visibility 0.28s ease; cursor: zoom-out; }
+    .lb-overlay.active { opacity: 1; visibility: visible; }
+    .lb-overlay.active .lb-img { transform: scale(1); }
+    .lb-img { max-width: 92vw; max-height: 88vh; object-fit: contain; border-radius: 8px; transform: scale(0.94); transition: transform 0.32s cubic-bezier(0.16,1,0.3,1); }
+    .lb-close { position: fixed; top: 20px; right: 24px; width: 44px; height: 44px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #fff; transition: background 0.2s, transform 0.2s; z-index: 10000; }
+    .lb-close:hover { background: rgba(255,255,255,0.18); transform: scale(1.08); }
+    .proj-media img { cursor: zoom-in; }
+
+    /* Methodology flow */
+    .method-flow { display: grid; grid-template-columns: repeat(6, 1fr); gap: 0; margin-top: 36px; position: relative; }
+    .method-flow::before { content: ''; position: absolute; top: 24px; left: 8%; right: 8%; height: 1px; background: linear-gradient(to right, var(--accent), var(--border), var(--border), var(--accent)); z-index: 0; }
+    .method-step { display: flex; flex-direction: column; align-items: center; gap: 12px; position: relative; z-index: 1; padding: 0 8px; }
+    .method-node { width: 48px; height: 48px; border-radius: 50%; background: var(--surface-2); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-family: var(--font-h); font-size: 11px; font-weight: 800; color: var(--accent); }
+    .method-label { font-family: var(--font-h); font-size: 12px; font-weight: 700; color: var(--text); text-align: center; }
+    .method-desc { font-size: 11px; color: var(--text-2); text-align: center; line-height: 1.5; }
+    @media (max-width: 768px) { .method-flow { grid-template-columns: repeat(3, 1fr); gap: 24px 8px; } .method-flow::before { display: none; } }
+    @media (max-width: 480px) { .method-flow { grid-template-columns: repeat(2, 1fr); } }
+
+    /* 4-component pills row */
+    .component-pills { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 20px; }
+    .component-pill { background: var(--surface-2); border: 1px solid var(--accent); border-radius: 100px; padding: 8px 20px; font-family: var(--font-h); font-size: 12px; font-weight: 700; color: var(--accent); letter-spacing: 0.06em; }
+
+    /* Barriers grid */
+    .barriers-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-top: 24px; }
+    .barrier-card { background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+    .barrier-card-title { font-family: var(--font-h); font-size: 13px; font-weight: 700; color: var(--text); margin-bottom: 6px; }
+    .barrier-card-desc { font-size: 13px; color: var(--text-2); line-height: 1.6; }
+
+    /* Use cases list */
+    .use-case-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 24px; }
+    .use-case-card { background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; padding: 20px 24px; }
+    .use-case-title { font-family: var(--font-h); font-size: 13px; font-weight: 800; color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px; }
+    .use-case-card ul { margin: 0; padding-left: 16px; }
+    .use-case-card ul li { font-size: 13px; color: var(--text-2); line-height: 1.8; }
+
+    /* Survey questions list */
+    .survey-q-list { list-style: none; padding: 0; margin: 20px 0 0; }
+    .survey-q-list li { display: flex; gap: 12px; padding: 12px 0; border-bottom: 1px solid var(--border); font-size: 14px; color: var(--text-2); line-height: 1.6; align-items: flex-start; }
+    .survey-q-list li::before { content: 'Q'; font-family: var(--font-h); font-size: 10px; font-weight: 800; color: var(--accent); background: rgba(144,252,3,0.1); border: 1px solid var(--accent); border-radius: 4px; padding: 2px 6px; flex-shrink: 0; margin-top: 2px; }
+
+    /* Diamond info card */
+    .diamond-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-top: 24px; }
+    .diamond-card { background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; padding: 20px; }
+    .diamond-card-label { font-family: var(--font-h); font-size: 10px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+    .diamond-card-text { font-size: 13px; color: var(--text-2); line-height: 1.7; }
+
+    /* Concept cards */
+    .concept-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 32px; }
+    .concept-card { background: var(--surface-2); border: 1px solid var(--border); border-radius: 16px; padding: 28px; }
+    .concept-num { font-family: var(--font-h); font-size: 11px; font-weight: 800; letter-spacing: 0.12em; color: var(--accent); text-transform: uppercase; margin-bottom: 10px; }
+    .concept-title { font-family: var(--font-h); font-size: 17px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+    .concept-desc { font-size: 13px; color: var(--text-2); line-height: 1.7; }
+
+    /* Scene cards */
+    .scene-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 32px; }
+    .scene-card { background: var(--surface-2); border: 1px solid var(--border); border-radius: 14px; padding: 24px; }
+    .scene-num { width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--accent); display: flex; align-items: center; justify-content: center; font-family: var(--font-h); font-size: 12px; font-weight: 800; color: var(--accent); margin-bottom: 14px; }
+    .scene-title { font-family: var(--font-h); font-size: 14px; font-weight: 700; color: var(--text); margin-bottom: 8px; }
+    .scene-desc { font-size: 13px; color: var(--text-2); line-height: 1.6; }
+    @media (max-width: 640px) { .scene-grid, .concept-grid, .diamond-grid, .use-case-grid, .barriers-grid { grid-template-columns: 1fr; } }
+
+    /* Tech cards */
+    .tech-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 24px; }
+    .tech-card { background: var(--surface-2); border: 1px solid var(--border); border-radius: 12px; padding: 24px; }
+    .tech-card-label { font-family: var(--font-h); font-size: 10px; font-weight: 800; letter-spacing: 0.12em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+    .tech-card-title { font-family: var(--font-h); font-size: 15px; font-weight: 700; color: var(--text); margin-bottom: 10px; }
+    .tech-card-text { font-size: 13px; color: var(--text-2); line-height: 1.7; }
+    @media (max-width: 640px) { .tech-grid { grid-template-columns: 1fr; } }
+  </style>
 </head>
 <body>
 
@@ -21,25 +92,26 @@
   </nav>
 
   <section class="proj-hero">
-    <div class="proj-hero-bg" style="background: linear-gradient(140deg, #2A0800 0%, #8B2000 45%, #FF5A18 78%, #FFB070 100%);"></div>
+    <div class="proj-hero-bg" style="background: #0F0F16;"></div>
     <div class="proj-hero-ov"></div>
     <div class="proj-hero-content">
       <div class="proj-chips">
         <span class="proj-chip">Augmented Reality</span>
-        <span class="proj-chip">Brand Experience</span>
-        <span class="proj-chip">Digital</span>
+        <span class="proj-chip">Interaction Design</span>
+        <span class="proj-chip">In-Store Experience</span>
+        <span class="proj-chip">Jewelry / Retail</span>
       </div>
       <h1 class="proj-title">Enhancing Brand Experience<br>with Augmented Reality</h1>
-      <p class="proj-subtitle">Bridging physical products and digital storytelling through AR — creating immersive brand moments that deepen customer connection and emotional engagement.</p>
+      <p class="proj-subtitle">Designing an in-store AR ring configurator and try-on experience for an emerging lab-grown diamond brand — merging physical retail with immersive digital interaction.</p>
     </div>
   </section>
 
   <div class="proj-meta-bar">
     <div class="proj-meta-inner">
-      <div class="meta-item"><div class="meta-label">Role</div><div class="meta-value">AR Designer</div></div>
-      <div class="meta-item"><div class="meta-label">Tools</div><div class="meta-value small">ARKit · ARCore · Unity</div></div>
+      <div class="meta-item"><div class="meta-label">Role</div><div class="meta-value">Interaction Designer</div></div>
+      <div class="meta-item"><div class="meta-label">Tools</div><div class="meta-value small">Unity 3D · Vuforia · Figma</div></div>
       <div class="meta-item"><div class="meta-label">Year</div><div class="meta-value">2024</div></div>
-      <div class="meta-item"><div class="meta-label">Domain</div><div class="meta-value">Brand / Commercial</div></div>
+      <div class="meta-item"><div class="meta-label">Domain</div><div class="meta-value">AR / Retail / Jewelry</div></div>
     </div>
   </div>
 
@@ -47,92 +119,408 @@
 
     <!-- Hero Visual -->
     <div class="proj-section reveal">
-      <div class="ph ar-16-9">
-        <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 10l4.553-2.069A1 1 0 0121 8.82v6.361a1 1 0 01-1.447.894L15 14M3 8a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/></svg>
-        <span class="ph-label">AR Brand Activation — Hero Shot</span>
-        <span class="ph-sub">AR overlay on physical product in environment</span>
-        <span class="ph-badge ph-badge-img">IMG</span>
+      <div class="proj-video-wrap">
+        <iframe width="560" height="315" src="https://www.youtube.com/embed/l1O--Oqj7r0?si=zv0CRK67tkRkj6KZ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
       </div>
     </div>
 
-    <!-- Overview -->
+    <!-- 01 Brief -->
     <div class="proj-section reveal">
-      <div class="grid-text-img">
-        <div>
-          <div class="proj-section-eyebrow">Overview</div>
-          <h2 class="proj-section-title">Making Brands Come Alive</h2>
-          <p class="proj-text">Traditional brand touchpoints — packaging, retail displays, print — are static. This project explored how <strong>augmented reality overlays</strong> can transform passive brand materials into interactive, story-driven experiences that engage users on a deeper level.</p>
-          <p class="proj-text mt-16">When a customer points their phone at the product, the brand world opens up — revealing product stories, animations, and contextual information layered seamlessly over the physical object.</p>
+      <div class="proj-section-eyebrow">01 — Brief</div>
+      <h2 class="proj-section-title">An in-store Experience</h2>
+      <p class="proj-text">An emerging jewelry brand specialising in <strong>lab-grown diamonds</strong> was opening their first physical retail store and wanted to position themselves as an innovative, forward-thinking brand. The brief was to design and prototype an <strong>in-store immersive experience</strong> that could educate, engage and delight customers — bridging the gap between the novelty of their product and the trust required for a high-involvement purchase.</p>
+
+      <div class="grid-3 mt-32" style="grid-template-columns: repeat(3,1fr);">
+        <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:24px;">
+          <div style="font-family:var(--font-h);font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;">Context</div>
+          <div style="font-family:var(--font-h);font-size:15px;font-weight:700;color:var(--text);margin-bottom:8px;">Lab Grown Diamond Brand</div>
+          <p style="font-size:13px;color:var(--text-2);line-height:1.6;margin:0;">Opening their first retail shop, positioning as an innovative, ethical brand.</p>
         </div>
-        <div class="ph ar-3-4" style="max-width:320px; justify-self:center;">
-          <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
-          <span class="ph-label">AR on Mobile — Screen Recording</span>
-          <span class="ph-sub">Phone view of AR trigger in action</span>
-          <span class="ph-badge ph-badge-gif">GIF</span>
+        <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:24px;">
+          <div style="font-family:var(--font-h);font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;">Challenge</div>
+          <div style="font-family:var(--font-h);font-size:15px;font-weight:700;color:var(--text);margin-bottom:8px;">Build Trust Through Experience</div>
+          <p style="font-size:13px;color:var(--text-2);line-height:1.6;margin:0;">Lab-grown diamonds face skepticism — the in-store experience needed to educate and build confidence.</p>
+        </div>
+        <div style="background:var(--surface-2);border:1px solid var(--border);border-radius:12px;padding:24px;">
+          <div style="font-family:var(--font-h);font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);margin-bottom:8px;">Goal</div>
+          <div style="font-family:var(--font-h);font-size:15px;font-weight:700;color:var(--text);margin-bottom:8px;">Immersive In-Store Solutions</div>
+          <p style="font-size:13px;color:var(--text-2);line-height:1.6;margin:0;">Design and prototype AR-powered interactions that feel premium and are genuinely useful.</p>
         </div>
       </div>
     </div>
 
     <hr class="proj-divider"/>
 
-    <!-- AR Trigger Design -->
+    <!-- 02 Methodology -->
     <div class="proj-section reveal">
-      <div class="proj-section-eyebrow">Design System</div>
-      <h2 class="proj-section-title">Trigger & Overlay Design</h2>
-      <p class="proj-text">The AR experience is built around two layers: the <strong>image trigger</strong> (what the camera recognises) and the <strong>digital overlay</strong> (what appears above it). Both were designed in tandem to ensure a seamless, coherent brand experience.</p>
-      <div class="grid-3 mt-32">
-        <div class="ph ar-1-1">
-          <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
-          <span class="ph-label">Image Trigger Design</span>
-          <span class="ph-sub">Physical marker / packaging</span>
-          <span class="ph-badge ph-badge-img">IMG</span>
+      <div class="proj-section-eyebrow">02 — Methodology</div>
+      <h2 class="proj-section-title">Hybrid Agile Design Framework</h2>
+      <p class="proj-text">The design methodology followed a hybrid version of the <strong>Agile Design Framework</strong> and <strong>Design Thinking</strong> — emphasising iterative development where the project was broken into manageable units, continuously tested and refined based on feedback.</p>
+
+      <div class="method-flow">
+        <div class="method-step">
+          <div class="method-node">01</div>
+          <div class="method-label">Discover</div>
+          <div class="method-desc">Understand user preferences and behaviours</div>
         </div>
-        <div class="ph ar-1-1">
-          <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
-          <span class="ph-label">3D Overlay Asset</span>
-          <span class="ph-sub">Digital layer placed above trigger</span>
-          <span class="ph-badge ph-badge-img">IMG</span>
+        <div class="method-step">
+          <div class="method-node">02</div>
+          <div class="method-label">Define</div>
+          <div class="method-desc">Clarify the problem space</div>
         </div>
-        <div class="ph ar-1-1">
-          <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4l3 3"/></svg>
-          <span class="ph-label">Animation Timeline</span>
-          <span class="ph-sub">AR reveal sequence timing</span>
-          <span class="ph-badge ph-badge-img">IMG</span>
+        <div class="method-step">
+          <div class="method-node">03</div>
+          <div class="method-label">Ideate</div>
+          <div class="method-desc">Brainstorm and generate a range of ideas</div>
+        </div>
+        <div class="method-step">
+          <div class="method-node">04</div>
+          <div class="method-label">Prototype</div>
+          <div class="method-desc">Quick prototypes to test ideas</div>
+        </div>
+        <div class="method-step">
+          <div class="method-node">05</div>
+          <div class="method-label">Review</div>
+          <div class="method-desc">Test prototype and make changes</div>
+        </div>
+        <div class="method-step">
+          <div class="method-node">06</div>
+          <div class="method-label">Deliver</div>
+          <div class="method-desc">Finalise and deliver the product</div>
         </div>
       </div>
     </div>
 
-    <!-- Live AR Demo -->
+    <hr class="proj-divider"/>
+
+    <!-- 03 Research -->
     <div class="proj-section reveal">
-      <div class="proj-section-eyebrow">Experience</div>
-      <h2 class="proj-section-title">The AR Moment</h2>
-      <p class="proj-text">The full AR reveal — from camera recognition to overlay animation — was designed to feel <strong>instant and magical</strong>. Sub-second recognition with a smooth entrance animation removes friction and creates a sense of delight.</p>
-      <div class="ph ar-16-9 mt-32">
-        <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-        <span class="ph-label">Full AR Experience Demo</span>
-        <span class="ph-sub">Trigger recognition → overlay animation sequence</span>
-        <span class="ph-badge ph-badge-gif">GIF</span>
+      <div class="proj-section-eyebrow">03 — Research</div>
+      <h2 class="proj-section-title">Brand Experience & Immersive Tech</h2>
+
+      <!-- Brand Experience -->
+      <p class="proj-text">Good brand experiences enhance memorability and create emotional impact — fostering stronger connection and brand recall. They spark word-of-mouth communication through social channels that amplify the brand's reach. The four critical components are:</p>
+      <div class="component-pills">
+        <span class="component-pill">Perception</span>
+        <span class="component-pill">Participation</span>
+        <span class="component-pill">Personalization</span>
+        <span class="component-pill">Prioritization</span>
+      </div>
+
+      <!-- Immersive Tech in Retail -->
+      <h3 class="proj-section-title mt-32" style="font-size:20px;">Immersive Tech in Retail</h3>
+      <p class="proj-text">Companies advertise their AR/VR practices as an innovative feature — utilising the technologies to establish their brands and send the message that they stand for innovation, exploration, and creativity. Research by Boletsis and Karahasanovic (2018) shows that AR has a much wider penetration in retail compared to VR</strong>.</p>
+
+      <!-- Potential Barriers -->
+      <h3 style="font-family:var(--font-h);font-size:16px;font-weight:700;color:var(--text);margin-top:32px;margin-bottom:4px;">Potential Barriers</h3>
+      <div class="barriers-grid">
+        <div class="barrier-card">
+          <svg style="color:var(--accent);margin-bottom:12px;display:block;" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          <div class="barrier-card-title">Cost & Maintenance</div>
+          <div class="barrier-card-desc">High cost of implementation, ongoing maintenance, updates and repairs create adoption friction for smaller brands.</div>
+        </div>
+        <div class="barrier-card">
+          <svg style="color:var(--accent);margin-bottom:12px;display:block;" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M12 8v4M12 16h.01"/></svg>
+          <div class="barrier-card-title">Privacy Concerns</div>
+          <div class="barrier-card-desc">Use of cameras and sensors raises user privacy concerns, requiring transparent data practices.</div>
+        </div>
+        <div class="barrier-card">
+          <svg style="color:var(--accent);margin-bottom:12px;display:block;" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          <div class="barrier-card-title">Staff Acceptance</div>
+          <div class="barrier-card-desc">Resistance or unfamiliarity from retail staff can undermine the experience before it reaches the customer.</div>
+        </div>
+        <div class="barrier-card">
+          <svg style="color:var(--accent);margin-bottom:12px;display:block;" viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/><path d="M7 9h.01M11 9h6"/><path d="M7 12h.01M11 12h6"/></svg>
+          <div class="barrier-card-title">System Compatibility</div>
+          <div class="barrier-card-desc">Integrating AR solutions with existing POS and retail management systems can be technically complex.</div>
+        </div>
+      </div>
+
+      <!-- Current Use Cases -->
+      <h3 style="font-family:var(--font-h);font-size:16px;font-weight:700;color:var(--text);margin-top:32px;margin-bottom:4px;">Current Use Cases in Retail</h3>
+      <div class="use-case-grid">
+        <div class="use-case-card">
+          <div class="proj-media ar-16-9" style="margin-bottom:16px;border-radius:8px;overflow:hidden;">
+            <img src="./assets/retail/advertisement.jpg" alt="Advertisements — AR Use Case"/>
+          </div>
+          <div class="use-case-title">Advertisements</div>
+          <ul>
+            <li>3D Billboards</li>
+            <li>AR Filters for Social Media</li>
+            <li>Location-based AR</li>
+            <li>VR Advertisement</li>
+          </ul>
+        </div>
+        <div class="use-case-card">
+          <div class="proj-media ar-16-9" style="margin-bottom:16px;border-radius:8px;overflow:hidden;">
+            <img src="./assets/retail/interactive%20product.jpeg" alt="Interactive Product Promotion — AR Use Case"/>
+          </div>
+          <div class="use-case-title">Interactive Product Promotion</div>
+          <ul>
+            <li>Projection Mapping</li>
+            <li>Sensor-based Installations</li>
+          </ul>
+        </div>
+        <div class="use-case-card">
+          <div class="proj-media ar-16-9" style="margin-bottom:16px;border-radius:8px;overflow:hidden;">
+            <img src="./assets/retail/Virtual%20Try%20on.jpeg" alt="Virtual Try-On — AR Use Case"/>
+          </div>
+          <div class="use-case-title">Virtual Try-On</div>
+          <ul>
+            <li>Utilised across fashion, beauty, eyewear and home decor</li>
+            <li>Boosts customer trust in buying choices</li>
+          </ul>
+        </div>
+        <div class="use-case-card">
+          <div class="proj-media ar-16-9" style="margin-bottom:16px;border-radius:8px;overflow:hidden;">
+            <img src="./assets/retail/configurator.jpg" alt="Product Configuration — AR Use Case"/>
+          </div>
+          <div class="use-case-title">Product Configuration</div>
+          <ul>
+            <li>Brands create virtual experiences using web + VR technology</li>
+            <li>Customers browse products from the comfort of home</li>
+          </ul>
+        </div>
       </div>
     </div>
 
-    <!-- Final screens -->
+    <hr class="proj-divider"/>
+
+    <!-- 04 User Perception Survey -->
     <div class="proj-section reveal">
-      <div class="proj-section-eyebrow">Final Deliverables</div>
-      <h2 class="proj-section-title">Brand Moments</h2>
+      <div class="proj-section-eyebrow">04 — User Perception Survey</div>
+      <h2 class="proj-section-title">Understanding Users & the Product</h2>
+      <p class="proj-text">The survey had two goals: understand what people know about <strong>immersive branding</strong> (how they feel about it and where they've experienced it), and gauge their knowledge and concerns about <strong>lab-grown diamonds</strong>.</p>
+
+      <!-- Survey Part 1 -->
+      <h3 style="font-family:var(--font-h);font-size:16px;font-weight:700;color:var(--text);margin-top:32px;margin-bottom:4px;">Survey Part 1 — Immersive Brand Experience</h3>
+      <p class="proj-text" style="margin-bottom:0;">Exploring awareness and attitudes toward interactive technology in retail environments.</p>
+      <ul class="survey-q-list">
+        <li>Gender</li>
+        <li>Age</li>
+        <li>Have you ever experienced any interactive technology while shopping in-store?</li>
+        <li>If yes, how did the interactive experiences influence your shopping experience?</li>
+        <li>How likely are you to engage with brands that offer interactive experiences over brands that do not offer such experiences (both in-store and online)?</li>
+        <li>Which brand or industry provided the experience?</li>
+      </ul>
+
+      <!-- Survey results placeholder -->
       <div class="grid-2 mt-32">
+        <div class="ph ar-1-1">
+          <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+          <span class="ph-label">Survey Results — Demographics</span>
+          <span class="ph-sub">Gender & Age distribution charts</span>
+          <span class="ph-badge ph-badge-img">CHART</span>
+        </div>
+        <div class="ph ar-1-1">
+          <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+          <span class="ph-label">Survey Results — AR Experience</span>
+          <span class="ph-sub">Likelihood to engage with interactive brands</span>
+          <span class="ph-badge ph-badge-img">CHART</span>
+        </div>
+      </div>
+
+      <!-- Lab Grown Diamonds -->
+      <h3 style="font-family:var(--font-h);font-size:16px;font-weight:700;color:var(--text);margin-top:40px;margin-bottom:4px;">Understanding the Product — Lab Grown Diamonds</h3>
+      <div class="diamond-grid">
+        <div class="diamond-card">
+          <div class="diamond-card-label">Process</div>
+          <div class="diamond-card-text">Made using either <strong>Chemical Vapor Deposition (CVD)</strong> or <strong>High Pressure High Temperature (HPHT)</strong> process — replicating the conditions that form natural diamonds.</div>
+        </div>
+        <div class="diamond-card">
+          <div class="diamond-card-label">Ecological</div>
+          <div class="diamond-card-text">Considered ecologically friendly since there is no mining process involved — significantly lower carbon footprint than mined diamonds.</div>
+        </div>
+        <div class="diamond-card">
+          <div class="diamond-card-label">Ethical</div>
+          <div class="diamond-card-text">Don't carry the stigma of conflict diamonds — making them a more ethical choice for socially conscious consumers.</div>
+        </div>
+        <div class="diamond-card">
+          <div class="diamond-card-label">Adoption</div>
+          <div class="diamond-card-text">Not yet widely accepted compared to natural diamonds — consumer education remains a critical part of the brand's role.</div>
+        </div>
+      </div>
+
+      <!-- Survey Part 2 -->
+      <h3 style="font-family:var(--font-h);font-size:16px;font-weight:700;color:var(--text);margin-top:40px;margin-bottom:4px;">Survey Part 2 — CVD Diamond Perception</h3>
+      <p class="proj-text" style="margin-bottom:0;">A survey was conducted to gauge people's knowledge and concerns about lab-grown diamonds.</p>
+      <ul class="survey-q-list">
+        <li>Have you heard of lab-grown diamonds before?</li>
+        <li>Do you believe lab-grown diamonds are of the same quality as natural diamonds?</li>
+        <li>Do you believe lab-grown diamonds are real diamonds?</li>
+        <li>Are lab-grown diamonds environmentally friendly?</li>
+        <li>Are they more ethical?</li>
+        <li>Do lab-grown diamonds have the same brilliance and sparkle as natural diamonds?</li>
+        <li>What factors would make you consider purchasing lab-grown diamonds?</li>
+      </ul>
+
+      <!-- Survey results placeholder -->
+      <div class="grid-2 mt-32">
+        <div class="ph ar-1-1">
+          <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+          <span class="ph-label">CVD Diamond Survey — Awareness</span>
+          <span class="ph-sub">Heard of / quality / real diamond perception charts</span>
+          <span class="ph-badge ph-badge-img">CHART</span>
+        </div>
+        <div class="ph ar-1-1">
+          <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+          <span class="ph-label">CVD Diamond Survey — Ethics & Purchase</span>
+          <span class="ph-sub">Environmental, ethical & purchase decision drivers</span>
+          <span class="ph-badge ph-badge-img">CHART</span>
+        </div>
+      </div>
+
+      <!-- Key Takeaways -->
+      <h3 style="font-family:var(--font-h);font-size:16px;font-weight:700;color:var(--text);margin-top:40px;margin-bottom:16px;">Key Takeaways</h3>
+      <ul class="insight-list">
+        <li>Brands are embracing immersive technology as a competitive differentiator.</li>
+        <li>Customers spend more time in retail stores when provided with immersive experiences.</li>
+        <li>People are more likely to engage with brands that provide interactive experiences over those that do not.</li>
+        <li>There is considerable scepticism and uncertainty about lab-grown diamonds' authenticity, quality and environmental impact.</li>
+        <li>Ethical considerations and cost are major factors influencing potential purchase decisions.</li>
+      </ul>
+    </div>
+
+    <hr class="proj-divider"/>
+
+    <!-- 05 Concepts -->
+    <div class="proj-section reveal">
+      <div class="proj-section-eyebrow">05 — Concepts</div>
+      <h2 class="proj-section-title">Two Interaction Concepts</h2>
+      <p class="proj-text">Two distinct in-store interaction concepts emerged from the research — each addressing a different user need identified in the surveys.</p>
+
+      <div class="concept-grid">
+        <div class="concept-card">
+          <div class="concept-num">Concept 01</div>
+          <div class="concept-title">Ring Configurator with AR Try-On</div>
+          <p class="concept-desc">An in-store system where customers can personalise their jewellery — customising the ring base, diamond shape and metal — then virtually try it on using an AR marker before placing an order.</p>
+        </div>
+        <div class="concept-card">
+          <div class="concept-num">Concept 02</div>
+          <div class="concept-title">Phygital Interactive In-Store Display</div>
+          <p class="concept-desc">An interactive information kiosk where customers can get educated about the brand, its history and the product — addressing the knowledge gap around lab-grown diamonds through engaging, touch-driven content.</p>
+        </div>
+      </div>
+    </div>
+
+    <hr class="proj-divider"/>
+
+    <!-- 06 Design & Development -->
+    <div class="proj-section reveal">
+      <div class="proj-section-eyebrow">06 — Design & Development</div>
+      <h2 class="proj-section-title">Ring Configurator with AR Try-On</h2>
+      <p class="proj-text">The Ring Configurator was developed across three interconnected scenes — each designed to guide the customer from personalisation through to understanding, with the AR try-on moment as the centrepiece.</p>
+
+      <div class="scene-grid">
+        <div class="scene-card">
+          <div class="scene-num">01</div>
+          <div class="scene-title">Ring Customisation Scene</div>
+          <p class="scene-desc">User can customise the ring base, diamond shape and ring metal. Real-time 3D preview updates as selections are made.</p>
+        </div>
+        <div class="scene-card">
+          <div class="scene-num">02</div>
+          <div class="scene-title">AR Try-On Scene</div>
+          <p class="scene-desc">The user wears a target marker on their finger and matches it to the on-screen reference — triggering the customised 3D ring to appear augmented on top of the marker.</p>
+        </div>
+        <div class="scene-card">
+          <div class="scene-num">03</div>
+          <div class="scene-title">Know Your Diamond</div>
+          <p class="scene-desc">An educational scene that helps users understand how similar lab-grown diamonds are to natural ones — presented through the 4C's of diamond quality.</p>
+        </div>
+      </div>
+
+      <!-- User Journey -->
+      <h3 style="font-family:var(--font-h);font-size:18px;font-weight:700;color:var(--text);margin-top:48px;margin-bottom:8px;">User Journey</h3>
+      <p class="proj-text">The physical setup consists of a tablet running the application, with a fixed overhead camera.</p>
+      <div class="journey-flow mt-32">
+        <div class="journey-step">
+          <div class="journey-node">01</div>
+          <div class="journey-label">Approach</div>
+          <div class="journey-desc">Customer approaches the in-store setup with the tablet and connected camera</div>
+        </div>
+        <div class="journey-step">
+          <div class="journey-node">02</div>
+          <div class="journey-label">Customise</div>
+          <div class="journey-desc">Customer interacts with the application and customises their ring</div>
+        </div>
+        <div class="journey-step">
+          <div class="journey-node">03</div>
+          <div class="journey-label">Try On</div>
+          <div class="journey-desc">Customer places hand on the platform — live camera feed displays with 3D ring augmented over the marker</div>
+        </div>
+        <div class="journey-step">
+          <div class="journey-node">04</div>
+          <div class="journey-label">Explore</div>
+          <div class="journey-desc">Customer opens the AR scene and wears a marker target on their finger to view the customised ring</div>
+        </div>
+      </div>
+
+      <!-- UI Approach -->
+      <h3 style="font-family:var(--font-h);font-size:18px;font-weight:700;color:var(--text);margin-top:48px;margin-bottom:8px;">UI Design Direction</h3>
+      <p class="proj-text">A very minimal aesthetic was chosen to reflect the concept of <strong>Quiet Luxury</strong> — Montserrat typeface with a beige colour palette and clean spatial layouts that let the product and AR content take centre stage.</p>
+      <div class="grid-2 mt-24">
         <div class="ph ar-16-9">
-          <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14"/></svg>
-          <span class="ph-label">AR Activation — Shot 01</span>
+          <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>
+          <span class="ph-label">Initial UI Layout</span>
+          <span class="ph-sub">Low-fidelity wireframes / layout explorations</span>
           <span class="ph-badge ph-badge-img">IMG</span>
         </div>
         <div class="ph ar-16-9">
-          <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14"/></svg>
-          <span class="ph-label">AR Activation — Shot 02</span>
+          <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>
+          <span class="ph-label">Final UI — All Scenes</span>
+          <span class="ph-sub">Quiet Luxury visual direction, Montserrat, beige</span>
           <span class="ph-badge ph-badge-img">IMG</span>
         </div>
       </div>
+
+      <!-- Tech Stack -->
+      <h3 style="font-family:var(--font-h);font-size:18px;font-weight:700;color:var(--text);margin-top:48px;margin-bottom:8px;">Technology</h3>
+      <div class="tech-grid">
+        <div class="tech-card">
+          <div class="tech-card-label">Game Engine</div>
+          <div class="tech-card-title">Unity 3D</div>
+          <p class="tech-card-text">Unity was chosen for its straightforward implementation of AR features and user-friendly build process for Android. Despite challenges achieving high realism in diamond render quality, Unity's versatility and robust AR support made it the best overall choice.</p>
+        </div>
+        <div class="tech-card">
+          <div class="tech-card-label">AR Tracking</div>
+          <div class="tech-card-title">Vuforia Model Tracking</div>
+          <p class="tech-card-text">Vuforia's model tracking uses a 3D-printed object as the target marker — giving very stable tracking even during hand movement. The augmented ring moves with the marker naturally. The key constraint: the camera needs to be close and the marker orientation must precisely match the predefined position.</p>
+        </div>
+      </div>
+
+      <div class="proj-media ar-16-9 mt-24">
+        <img src="./assets/thumbs/ar-brand.jpg" alt="3D Printed Tracking Models"/>
+      </div>
+    </div>
+
+    <hr class="proj-divider"/>
+
+    <!-- 07 Final Product -->
+    <div class="proj-section reveal">
+      <div class="proj-section-eyebrow">07 — Final Product</div>
+      <h2 class="proj-section-title">The AR Experience in Action</h2>
+      <p class="proj-text">The three scenes come together as a cohesive in-store experience — guiding the customer from personalisation to AR try-on to education in a single, connected interaction flow.</p>
+
+      <div class="grid-3 mt-32">
+        <div class="ph ar-9-16" style="max-width:100%">
+          <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
+          <span class="ph-label">Scene 1 — Ring Customisation</span>
+          <span class="ph-badge ph-badge-img">IMG</span>
+        </div>
+        <div class="ph ar-9-16" style="max-width:100%">
+          <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
+          <span class="ph-label">Scene 2 — AR Try On</span>
+          <span class="ph-badge ph-badge-gif">GIF</span>
+        </div>
+        <div class="ph ar-9-16" style="max-width:100%">
+          <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg>
+          <span class="ph-label">Scene 3 — Know Your Diamond</span>
+          <span class="ph-badge ph-badge-img">IMG</span>
+        </div>
+      </div>
+
       <div class="proj-callout">
-        <p><strong>Outcome:</strong> AR-enhanced brand touchpoints created measurable increases in dwell time and engagement compared to static equivalents — demonstrating the business case for immersive brand experiences.</p>
+        <p><strong>Outcome:</strong> The AR ring configurator and try-on experience successfully demonstrated how immersive in-store technology can shift perception of a new product category — educating customers about lab-grown diamonds while creating a memorable, brand-defining retail moment.</p>
       </div>
     </div>
 
@@ -163,11 +551,28 @@
     <a href="./index.html">adithyasuresh.design</a>
   </footer>
 
+  <div class="lb-overlay" id="lb">
+    <button class="lb-close" id="lbClose" aria-label="Close">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <img class="lb-img" id="lbImg" src="" alt=""/>
+  </div>
+
   <script>
     const io = new IntersectionObserver(entries => {
       entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
     }, { threshold: 0.08, rootMargin: '0px 0px -48px 0px' });
     document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    const lb = document.getElementById('lb');
+    const lbImg = document.getElementById('lbImg');
+    const lbClose = document.getElementById('lbClose');
+    function lbOpen(src, alt) { lbImg.src = src; lbImg.alt = alt || ''; lb.classList.add('active'); document.body.style.overflow = 'hidden'; }
+    function lbCloseF() { lb.classList.remove('active'); document.body.style.overflow = ''; }
+    document.querySelectorAll('.proj-media img').forEach(img => { img.addEventListener('click', () => lbOpen(img.src, img.alt)); });
+    lbClose.addEventListener('click', lbCloseF);
+    lb.addEventListener('click', e => { if (e.target === lb) lbCloseF(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') lbCloseF(); });
   </script>
 </body>
 </html>

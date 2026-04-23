@@ -5,6 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Skoda Octavia RS — Gen AI Pre-Viz · Adithya Suresh</title>
   <link rel="stylesheet" href="./project-page.css"/>
+  <style>
+    .lb-overlay { position: fixed; inset: 0; z-index: 9999; background: rgba(0,0,0,0.93); display: flex; align-items: center; justify-content: center; opacity: 0; visibility: hidden; transition: opacity 0.28s ease, visibility 0.28s ease; cursor: zoom-out; }
+    .lb-overlay.active { opacity: 1; visibility: visible; }
+    .lb-overlay.active .lb-img { transform: scale(1); }
+    .lb-img { max-width: 92vw; max-height: 88vh; object-fit: contain; border-radius: 8px; transform: scale(0.94); transition: transform 0.32s cubic-bezier(0.16,1,0.3,1); }
+    .lb-close { position: fixed; top: 20px; right: 24px; width: 44px; height: 44px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.18); border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #fff; transition: background 0.2s, transform 0.2s; z-index: 10000; }
+    .lb-close:hover { background: rgba(255,255,255,0.18); transform: scale(1.08); }
+    .proj-media img { cursor: zoom-in; }
+  </style>
 </head>
 <body>
 
@@ -21,8 +30,13 @@
   </nav>
 
   <section class="proj-hero">
-    <div class="proj-hero-bg" style="background: linear-gradient(140deg, #0D0520 0%, #2E0D5F 35%, #7B2FF7 65%, #E8A030 100%);"></div>
-    <div class="proj-hero-ov"></div>
+    <video
+      class="proj-hero-bg"
+      src="./assets/skoda/project%20hero%20background.mp4"
+      autoplay loop muted playsinline
+      style="width:100%;height:100%;object-fit:cover;object-position:center;"
+    ></video>
+    <div class="proj-hero-ov" style="background:rgba(0,0,0,0.60);"></div>
     <div class="proj-hero-content">
       <div class="proj-chips">
         <span class="proj-chip">Gen AI</span>
@@ -37,8 +51,8 @@
 
   <div class="proj-meta-bar">
     <div class="proj-meta-inner">
-      <div class="meta-item"><div class="meta-label">Role</div><div class="meta-value">Creative Designer</div></div>
-      <div class="meta-item"><div class="meta-label">Tools</div><div class="meta-value small">Gen AI · Midjourney · Runway ML</div></div>
+      <div class="meta-item"><div class="meta-label">Role</div><div class="meta-value">Pre-Visualization & Concept Development</div></div>
+      <div class="meta-item"><div class="meta-label">Tools</div><div class="meta-value small">Google Flow · Gemini · Runway ML</div></div>
       <div class="meta-item"><div class="meta-label">Year</div><div class="meta-value">2025</div></div>
       <div class="meta-item"><div class="meta-label">Domain</div><div class="meta-value">Film / Automotive</div></div>
     </div>
@@ -62,44 +76,30 @@
           <p class="proj-text">Traditional pre-visualization for automotive campaigns is expensive and time-consuming — requiring 3D artists, renders, and multiple revision cycles before a single frame is approved. This project explores how <strong>generative AI tools</strong> can compress that timeline while expanding the creative possibility space.</p>
           <p class="proj-text mt-16">By leveraging text-to-image and video synthesis models, the Skoda Octavia RS campaign pre-viz was produced in a fraction of the conventional timeline — enabling rapid iteration on mood, lighting, and composition at the concept stage.</p>
         </div>
-        <div class="ph ar-4-3">
-          <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 9h6M9 12h6M9 15h4"/></svg>
-          <span class="ph-label">Concept Brief</span>
-          <span class="ph-sub">Mood board or brief document</span>
-          <span class="ph-badge ph-badge-img">IMG</span>
+        <div class="proj-media ar-4-3">
+          <img src="./assets/skoda/jump.gif" alt="Skoda Octavia RS — Concept Brief"/>
         </div>
       </div>
     </div>
 
-    <hr class="proj-divider"/>
-
-    <!-- Process -->
+   
+	
+	<!-- Process Frames -->
     <div class="proj-section reveal">
-      <div class="proj-section-eyebrow">Process</div>
-      <h2 class="proj-section-title">From Prompt to Frame</h2>
-      <p class="proj-text">The workflow was structured in three phases: <strong>style exploration</strong>, <strong>scene construction</strong>, and <strong>cinematic refinement</strong>. Each phase involved tight feedback loops between AI generation and human creative direction.</p>
-
-      <div class="grid-3 mt-32">
-        <div class="ph ar-4-3">
-          <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 20h9M16.5 3.5a2.121 2.121 0 013 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
-          <span class="ph-label">Style Exploration</span>
-          <span class="ph-sub">Phase 01 — Prompt iterations</span>
-          <span class="ph-badge ph-badge-img">IMG</span>
+      <div class="proj-section-eyebrow">Process Frames</div>
+      <h2 class="proj-section-title">AI Frames</h2>
+      <div class="grid-2 mt-32">
+        <div class="proj-media ar-16-9">
+          <img src="./assets/skoda/final%20keyframe1.jpeg" alt="Skoda Octavia RS — AI Key Frame 01"/>
         </div>
-        <div class="ph ar-4-3">
-          <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-          <span class="ph-label">Scene Construction</span>
-          <span class="ph-sub">Phase 02 — Frame composition</span>
-          <span class="ph-badge ph-badge-img">IMG</span>
-        </div>
-        <div class="ph ar-4-3">
-          <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"/></svg>
-          <span class="ph-label">Cinematic Refinement</span>
-          <span class="ph-sub">Phase 03 — Final frames</span>
-          <span class="ph-badge ph-badge-img">IMG</span>
+        <div class="proj-media ar-16-9">
+          <img src="./assets/skoda/final%20keyframe%202.jpeg" alt="Skoda Octavia RS — AI Key Frame 02"/>
         </div>
       </div>
-    </div>
+      <div class="proj-media ar-16-9 mt-16">
+        <img src="./assets/skoda/final%20keyframe%203.jpeg" alt="Skoda Octavia RS — AI Key Frame 03"/>
+      </div>
+	   <hr class="proj-divider"/>
 
     <!-- AI vs Actual Shot Comparison -->
     <div class="proj-section reveal">
@@ -113,74 +113,25 @@
         </div>
         <div class="grid-2" style="row-gap: 12px;">
           <!-- Row 1 -->
-          <div class="ph ar-16-9">
-            <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-            <span class="ph-label">AI Pre-Viz — Shot 01</span>
-            <span class="ph-badge ph-badge-gif">GIF</span>
-          </div>
-          <div class="ph ar-16-9">
-            <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 10l4.553-2.069A1 1 0 0121 8.82v6.361a1 1 0 01-1.447.894L15 14M3 8a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/></svg>
-            <span class="ph-label">Actual Shot — Take 01</span>
-            <span class="ph-badge ph-badge-gif">GIF</span>
-          </div>
+          <div class="proj-media ar-16-9"><img src="./assets/skoda/ai-shot-01.gif" alt="AI Pre-Viz — Shot 01"/></div>
+          <div class="proj-media ar-16-9"><img src="./assets/skoda/actual-shot-01.gif" alt="Actual Shot — Take 01"/></div>
           <!-- Row 2 -->
-          <div class="ph ar-16-9">
-            <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-            <span class="ph-label">AI Pre-Viz — Shot 02</span>
-            <span class="ph-badge ph-badge-gif">GIF</span>
-          </div>
-          <div class="ph ar-16-9">
-            <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 10l4.553-2.069A1 1 0 0121 8.82v6.361a1 1 0 01-1.447.894L15 14M3 8a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/></svg>
-            <span class="ph-label">Actual Shot — Take 02</span>
-            <span class="ph-badge ph-badge-gif">GIF</span>
-          </div>
+          <div class="proj-media ar-16-9"><img src="./assets/skoda/ai-shot-02.gif" alt="AI Pre-Viz — Shot 02"/></div>
+          <div class="proj-media ar-16-9"><img src="./assets/skoda/actual-shot-02.gif" alt="Actual Shot — Take 02"/></div>
           <!-- Row 3 -->
-          <div class="ph ar-16-9">
-            <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-            <span class="ph-label">AI Pre-Viz — Shot 03</span>
-            <span class="ph-badge ph-badge-gif">GIF</span>
-          </div>
-          <div class="ph ar-16-9">
-            <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 10l4.553-2.069A1 1 0 0121 8.82v6.361a1 1 0 01-1.447.894L15 14M3 8a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/></svg>
-            <span class="ph-label">Actual Shot — Take 03</span>
-            <span class="ph-badge ph-badge-gif">GIF</span>
-          </div>
+          <div class="proj-media ar-16-9"><img src="./assets/skoda/ai-shot-03.gif" alt="AI Pre-Viz — Shot 03"/></div>
+          <div class="proj-media ar-16-9"><img src="./assets/skoda/actual-shot-03.gif" alt="Actual Shot — Take 03"/></div>
           <!-- Row 4 -->
-          <div class="ph ar-16-9">
-            <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><polygon points="5 3 19 12 5 21 5 3"/></svg>
-            <span class="ph-label">AI Pre-Viz — Shot 04</span>
-            <span class="ph-badge ph-badge-gif">GIF</span>
-          </div>
-          <div class="ph ar-16-9">
-            <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M15 10l4.553-2.069A1 1 0 0121 8.82v6.361a1 1 0 01-1.447.894L15 14M3 8a2 2 0 012-2h8a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2V8z"/></svg>
-            <span class="ph-label">Actual Shot — Take 04</span>
-            <span class="ph-badge ph-badge-gif">GIF</span>
-          </div>
+          <div class="proj-media ar-16-9"><img src="./assets/skoda/ai-shot-04.gif" alt="AI Pre-Viz — Shot 04"/></div>
+          <div class="proj-media ar-16-9"><img src="./assets/skoda/actual-shot-04.gif" alt="Actual Shot — Take 04"/></div>
+          <!-- Row 5 -->
+          <div class="proj-media ar-16-9"><img src="./assets/skoda/ai-shot-05.gif" alt="AI Pre-Viz — Shot 05"/></div>
+          <div class="proj-media ar-16-9"><img src="./assets/skoda/actual-shot-05.gif" alt="Actual Shot — Take 05"/></div>
         </div>
       </div>
     </div>
 
-    <!-- Final Output -->
-    <div class="proj-section reveal">
-      <div class="proj-section-eyebrow">Final Output</div>
-      <h2 class="proj-section-title">Key Frames Delivered</h2>
-      <div class="grid-2 mt-32">
-        <div class="ph ar-16-9">
-          <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-          <span class="ph-label">Final Key Frame 01</span>
-          <span class="ph-badge ph-badge-img">IMG</span>
-        </div>
-        <div class="ph ar-16-9">
-          <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-          <span class="ph-label">Final Key Frame 02</span>
-          <span class="ph-badge ph-badge-img">IMG</span>
-        </div>
-      </div>
-      <div class="ph ar-16-9 mt-16">
-        <svg class="ph-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
-        <span class="ph-label">Final Key Frame 03 — Wide</span>
-        <span class="ph-badge ph-badge-img">IMG</span>
-      </div>
+    
 
       <div class="proj-callout">
         <p><strong>Outcome:</strong> The Gen AI pre-viz workflow reduced the concept-to-approval timeline significantly, enabling the creative team to explore more visual directions with less production overhead.</p>
@@ -214,11 +165,28 @@
     <a href="./index.html">adithyasuresh.design</a>
   </footer>
 
+  <div class="lb-overlay" id="lb">
+    <button class="lb-close" id="lbClose" aria-label="Close">
+      <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 6L6 18M6 6l12 12"/></svg>
+    </button>
+    <img class="lb-img" id="lbImg" src="" alt=""/>
+  </div>
+
   <script>
     const io = new IntersectionObserver(entries => {
       entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
     }, { threshold: 0.08, rootMargin: '0px 0px -48px 0px' });
     document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+    const lb = document.getElementById('lb');
+    const lbImg = document.getElementById('lbImg');
+    const lbClose = document.getElementById('lbClose');
+    function lbOpen(src, alt) { lbImg.src = src; lbImg.alt = alt || ''; lb.classList.add('active'); document.body.style.overflow = 'hidden'; }
+    function lbCloseF() { lb.classList.remove('active'); document.body.style.overflow = ''; }
+    document.querySelectorAll('.proj-media img').forEach(img => { img.addEventListener('click', () => lbOpen(img.src, img.alt)); });
+    lbClose.addEventListener('click', lbCloseF);
+    lb.addEventListener('click', e => { if (e.target === lb) lbCloseF(); });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') lbCloseF(); });
   </script>
 </body>
 </html>
